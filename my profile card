@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="profile-card">
+        <img src="your-actual-profile-picture-url.jpg" alt="Profile Picture" data-testid="profilePicture" class="profile-picture">
+        <h1 data-testid="fullName">Eniayewu Oluwatunmise</h1>
+        <h2 data-testid="jobTitle">Programmer</h2>
+        <p data-testid="shortBio">Passionate about creating web solutions. With about 6 months of experience in CSS and HTML, I strive to build user-friendly applications.</p>
+        <p data-testid="currentLocation">Lagos, Nigeria</p>
+        <p data-testid="emailAddress">oluwatunmiseeniayewu4@gmail.com</p>
+        <div data-testid="socialLinks" class="social-links">
+            <a href="https://github.com/OLUWATUNMISE4" target="_blank">GitHub</a>
+        </div>
+        <p data-testid="currentTimeUTC" id="currentTimeUTC"></p>
+        <p data-testid="currentTimeNigeria" id="currentTimeNigeria"></p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.profile-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.social-links a {
+    color: #0077b5;
+    text-decoration: none;
+}
+
+social-links a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        padding: 1rem;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+}
+function updateUTCTime() {
+    const currentTimeUTCElement = document.getElementById('currentTimeUTC');
+    const currentTimeNigeriaElement = document.getElementById('currentTimeNigeria');
+    const now = new Date();
+    
+    // Update UTC time
+    const utcTimeString = now.toUTCString();
+    currentTimeUTCElement.textContent = `Current UTC Time: ${utcTimeString}`;
+    
+    // Update Nigeria time (UTC+1)
+    const nigeriaTime = new Date(now.getTime() + (1 * 60 * 60 * 1000));
+    const nigeriaTimeString = nigeriaTime.toUTCString().replace("GMT", "WAT");
+    currentTimeNigeriaElement.textContent = `Current Time in Nigeria: ${nigeriaTimeString}`;
+}
+
+// Update the time immediately and then every second
+updateUTCTime();
+setInterval(updateUTCTime, 1000);
