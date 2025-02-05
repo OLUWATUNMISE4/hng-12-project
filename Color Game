@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Guessing Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Guess the Color!</h1>
+        <div data-testid="gameInstructions" class="instructions">Guess the correct color!</div>
+        <div data-testid="colorBox" class="color-box"></div>
+        <div class="color-options">
+            <button data-testid="colorOption" class="color-option"></button>
+            <button data-testid="colorOption" class="color-option"></button>
+            <button data-testid="colorOption" class="color-option"></button>
+            <button data-testid="colorOption" class="color-option"></button>
+            <button data-testid="colorOption" class="color-option"></button>
+            <button data-testid="colorOption" class="color-option"></button>
+        </div>
+        <div data-testid="gameStatus" class="game-status"></div>
+        <div class="score-container">
+            <span>Score: </span><span data-testid="score" class="score">0</span>
+        </div>
+        <button data-testid="newGameButton" class="new-game-button">New Game</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.game-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.color-box {
+    width: 100px;
+    height: 100px;
+    margin: 1rem auto;
+    border-radius: 5px;
+}
+
+.color-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.color-option {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.game-status {
+    margin: 1rem 0;
+    font-weight: bold;
+}
+
+.score-container {
+    margin: 1rem 0;
+}
+
+.new-game-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.new-game-button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 1rem;
+    }
+
+    .color-option {
+        width: 40px;
+        height: 40px;
+    }
+
+    .color-box {
+        width: 80px;
+        height: 80px;
+    }
+}
+const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
+let targetColor;
+let score = 0;
+
+const colorBox = document.querySelector('[data-testid="colorBox"]');
+const colorOptions = document.querySelectorAll('[data-testid="colorOption"]');
+const gameStatus = document.querySelector('[data-testid="gameStatus"]');
+const scoreElement = document.querySelector('[data-testid="score"]');
+const newGameButton = document.querySelector('[data-testid="newGameButton"]');
+
+function startNewGame() {
+    // Reset game status
+    gameStatus.textContent = '';
+    
+    // Randomly select target color
+    targetColor = colors[Math.floor(Math.random() * colors.length)];
+    colorBox.style.backgroundColor = targetColor;
+
+    // Randomly assign colors to options
+    colorOptions.forEach(option => {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        option.style.backgroundColor = randomColor;
+        option.onclick = () => handleColorGuess(randomColor);
+    });
+}
+
+function handleColorGuess(color) {
+    if (color === targetColor) {
+        gameStatus.textContent = 'Correct!';
+        score++;
+        scoreElement.textContent = score;
+        startNewGame();
+    } else {
+        gameStatus.textContent = 'Wrong! Try again.';
+    }
+}
+
+// Initialize game
+newGameButton.onclick = startNewGame;
+startNewGame();
